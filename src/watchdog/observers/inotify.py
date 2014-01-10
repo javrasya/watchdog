@@ -81,7 +81,7 @@ from watchdog.observers.api import (
     BaseObserver,
     DEFAULT_EMITTER_TIMEOUT,
     DEFAULT_OBSERVER_TIMEOUT
-)
+    )
 
 from watchdog.events import (
     DirDeletedEvent,
@@ -96,7 +96,7 @@ from watchdog.events import (
     EVENT_TYPE_CREATED,
     EVENT_TYPE_DELETED,
     EVENT_TYPE_MOVED
-)
+    )
 
 ACTION_EVENT_MAP = {
     (True, EVENT_TYPE_MODIFIED): DirModifiedEvent,
@@ -161,12 +161,12 @@ class InotifyEmitter(EventEmitter):
                                 self.queue_event(sub_event)
                     except KeyError:
                         pass
-                elif event.is_attrib:
+                elif event.is_close_write:
                     klass = ACTION_EVENT_MAP[(event.is_directory, EVENT_TYPE_MODIFIED)]
                     self.queue_event(klass(event.src_path))
-                elif event.is_modify:
-                    klass = ACTION_EVENT_MAP[(event.is_directory, EVENT_TYPE_MODIFIED)]
-                    self.queue_event(klass(event.src_path))
+                # elif event.is_modify:
+                #     klass = ACTION_EVENT_MAP[(event.is_directory, EVENT_TYPE_MODIFIED)]
+                #     self.queue_event(klass(event.src_path))
                 elif event.is_delete or event.is_delete_self:
                     klass = ACTION_EVENT_MAP[(event.is_directory, EVENT_TYPE_DELETED)]
                     self.queue_event(klass(event.src_path))
